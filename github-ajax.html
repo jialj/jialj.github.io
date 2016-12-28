@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>		
+	</head>
+	<script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.9.1/jquery.js" ></script>
+	<body>
+		<button id="upbtn" type="button">上传</button>
+		<form  action="http://webdav.imaicloud.com/webdav/" enctype="multipart/form-data" method="POST" name="fileinfo">
+			选择文件<input id="file1" type="file" name='fileup'  /> 
+			
+			<button type="submit" >form上传</button>
+		</form>
+		<button id="deletebtn" type="button">删除</button>
+		<button id="putBtn" type="button">PUT</button>
+		<button id="headBtn" type="button">HEAD</button>
+		<button id="postBtn" type="button">POST</button>
+		<button id="getBtn" type="button">GET</button>
+		<button id="moveBtn" type="button">MOVE</button>
+		<button id="mkCol" type="button">MKCOL</button>
+		
+	</body>
+	<script>
+	
+	
+	var upBtn = document.getElementById("upbtn");
+	upBtn.onclick = function(){
+		var oData = new FormData();  
+		oData.append("myfile", document.getElementById("file1").files[0]); 
+		ajax({
+	        url: "http://webdav.imaicloud.com/webdav/",              //请求地址
+	        type: "POST",                       //请求方式
+	        data: oData,        //请求参数
+	        success: function (response, xml) {
+	            // 此处放成功后执行的代码
+	        },
+	        fail: function (status) {
+	            // 此处放失败后执行的代码
+	        }
+	    });
+	}
+	
+	var deleteBtn = document.getElementById("deletebtn");
+	deleteBtn.onclick = function(){
+		var deleteFile = "aaa.json";
+		$.ajax({
+			beforeSend: function(req){
+	    		req.setRequestHeader('Destination',"http://webdav.imaicloud.com/webdav/ccc.html");
+	    		//req.setRequestHeader('Content-Type','application/octet-stream');
+				//req.setRequestHeader('Header', "'Destination:http://webdav.imaicloud.com/webdav/ccc.html' 'http://webdav.imaicloud.com/webdav/aaa.html'")
+			},
+	        url: "http://webdav.imaicloud.com/webdav/"+deleteFile,              //请求地址
+	        type: "DELETE",                       //请求方式
+	        data: "",        //请求参数
+	        success: function (response, xml) {
+	            // 此处放成功后执行的代码
+	        },
+	        fail: function (status) {
+	            // 此处放失败后执行的代码
+	        }
+	        
+	    });
+	}
+	
+	
+	
+	
+	var putBtn = document.getElementById("putBtn");
+	
+	putBtn.onclick = function(){
+		var deleteFile = "ttt.html";
+		var oData = new FormData();  
+		oData.append("myfile", document.getElementById("file1").files[0]); 
+		$.ajax({
+			beforeSend: function(req){
+				//Authorization
+				//Authentication
+	    		req.setRequestHeader('Authentication',"amlhbGo6MTk4OTEyMDhsaW4");
+	    	},
+	        url: "https://api.github.com/repos/jialj/jialj.github.io/contents/test2.md",              //请求地址
+	        type: "PUT",                       //请求方式
+	        data: '{"message": "my commit message", "committer": {"name": "jialj",  "email": "514435903@qq.com"  }, "content": "bXkgbmV3IGZpbGUgY29udGVudHM="}',        //请求参数
+	        success: function (response, xml) {
+	            // 此处放成功后执行的代码
+	        },
+	        fail: function (status) {
+	            // 此处放失败后执行的代码
+	        }
+	    });
+	}
+	
+	var headBtn = document.getElementById("headBtn");
+	headBtn.onclick = function(){
+		var headFile = "index.html";
+		ajax({
+	        url: "http://webdav.imaicloud.com/webdav/"+headFile,              //请求地址
+	        type: "HEAD",                       //请求方式
+	        data: "",        //请求参数
+	        success: function (response, xml) {
+	            // 此处放成功后执行的代码
+	        },
+	        fail: function (status) {
+	            // 此处放失败后执行的代码
+	        }
+	    });
+	}
+	var postBtn = document.getElementById("postBtn");
+	postBtn.onclick = function(){
+		ajax({
+	        url: "http://webdav.imaicloud.com/webdav/",              //请求地址
+	        type: "POST",                       //请求方式
+	        data: "",        //请求参数
+	        success: function (response, xml) {
+	            // 此处放成功后执行的代码
+	        },
+	        fail: function (status) {
+	            // 此处放失败后执行的代码
+	        }
+	    });
+	}
+	
+	
+	var getBtn = document.getElementById("getBtn");
+	getBtn.onclick = function(){
+		$.ajax({
+			beforeSend: function(req){
+	    		req.setRequestHeader('Accept',"application/vnd.github.VERSION.raw");
+	    		
+	    		//req.setRequestHeader('Content-Type','application/octet-stream');
+				//req.setRequestHeader('Header', "'Destination:http://webdav.imaicloud.com/webdav/ccc.html' 'http://webdav.imaicloud.com/webdav/aaa.html'")
+			},
+	        url: "https://api.github.com/repos/jialj/jialj.github.io/contents/test.md",              //请求地址
+	        type: "GET",                       //请求方式
+	        data: '',        //请求参数
+	        success: function (response, xml) {
+	            // 此处放成功后执行的代码
+	        },
+	        fail: function (status) {
+	            // 此处放失败后执行的代码
+	        }
+	    });
+	}
+	
+	var moveBtn = document.getElementById("moveBtn");
+	moveBtn.onclick = function(){
+		/*ajax({
+	        url: "http://webdav.imaicloud.com/webdav/",              //请求地址
+	        type: "MOVE",                       //请求方式
+	        data: "--header 'Destination:http://localhost/index2.html' 'http://localhost/index.html'",        //请求参数
+	        success: function (response, xml) {
+	            // 此处放成功后执行的代码
+	        },
+	        fail: function (status) {
+	            // 此处放失败后执行的代码
+	        }
+	    });*/
+	    
+	    $.ajax({
+	    	beforeSend: function(req){
+	    		req.setRequestHeader('Destination',"http://webdav.imaicloud.com/webdav/ccc.html");
+	    		
+	    		//req.setRequestHeader('Content-Type','application/octet-stream');
+				//req.setRequestHeader('Header', "'Destination:http://webdav.imaicloud.com/webdav/ccc.html' 'http://webdav.imaicloud.com/webdav/aaa.html'")
+			},
+			//data: {'Header':"'Destination:http://webdav.imaicloud.com/webdav/ccc.html' 'http://webdav.imaicloud.com/webdav/aaa.html'"},
+	    	url: "http://webdav.imaicloud.com/webdav/aaa.html",              //请求地址
+	        type: "MOVE",                       //请求方式
+	            //请求参数
+	        success: function (response, xml) {
+	            // 此处放成功后执行的代码
+	        },
+	        fail: function (status) {
+	            // 此处放失败后执行的代码
+	        }
+		})
+	    
+	    
+	}
+	
+	
+	var mkCol = document.getElementById("mkCol");
+	mkCol.onclick = function(){
+	    ajax({
+	        url: "http://webdav.imaicloud.com/webdav/test11/",              //请求地址
+	        type: "MKCOL",                       //请求方式
+	        success: function (response, xml) {
+	            // 此处放成功后执行的代码
+	        },
+	        fail: function (status) {
+	            // 此处放失败后执行的代码
+	        }
+	    });
+	    
+	    
+	}
+	
+	
+    function ajax(options) {
+        options = options || {};
+        options.type = (options.type || "GET").toUpperCase();
+        options.dataType = options.dataType || "json";
+        var params = options.data;
+
+        //创建 - 非IE6 - 第一步
+        if (window.XMLHttpRequest) {
+            var xhr = new XMLHttpRequest();
+        } else { //IE6及其以下版本浏览器
+            var xhr = new ActiveXObject('Microsoft.XMLHTTP');
+        }
+
+        //接收 - 第三步
+        xhr.onreadystatechange = function () {
+        	
+        	console.log("xhr.readyState=="+xhr.readyState);
+        	console.log("xhr.responseText=="+xhr.responseText);
+        	console.log("xhr.responseXML=="+xhr.responseXML);
+            if (xhr.readyState == 4) {
+                var status = xhr.status;
+                if (status >= 200 && status < 300) {
+                    options.success && options.success(xhr.responseText, xhr.responseXML);
+                } else {
+                    options.fail && options.fail(status);
+                }
+            }
+        }
+		
+        //连接 和 发送 - 第二步
+    	//if(options.type === "MOVE"){
+    		//xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    	//}
+    	xhr.open(options.type, options.url, true);
+    	xhr.send(params);
+        	
+        
+    }
+		
+	</script>
+</html>
