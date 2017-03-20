@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<style>
+		* {
+		    margin: 0;
+		}
+		html, body {
+		    height: 100%;
+		}
+		.wrapper {
+		    min-height: 100%;
+		    height: auto !important; /* 如果你不需要考虑IE6，则可以把这行与下一行代码删除 */
+		    height: 100%;
+		    margin: 0 auto -4em;
+		}
+		.footer, .push {
+		    height: 4em;
+		}
+		.footer, .push {
+		    clear: both;
+		}
+		.footer{
+			background-color: #006DCC;
+		}
+	</style>
+	<body>
+		<div class="wrapper">
+            <p>Your website content here.</p>
+            <p>Your website content here.</p>
+            <div class="push"></div>
+        </div>
+        <div class="footer">
+            <p>Copyright (c) 2008</p>
+        </div>
+	</body>
+</html>
