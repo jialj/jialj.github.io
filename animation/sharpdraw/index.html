@@ -5,10 +5,24 @@
 	<title>Document</title>
 </head>
 <body>
-	<canvas id="mycan"></canvas>
+	<canvas width=800 height=600 id="mycan"></canvas>
 	<script type="text/javascript">
-		let context = document.getElementById('mycan').getContexts('2d');
+		window.onload = function(){
+			var can = document.getElementById('mycan');
+			var ct = can.getContext('2d');
+			ct.beginPath();
 
+			for(var i=0; i<5; i++){
+				ct.lineTo(Math.cos((18+i*72)/180*Math.PI)*200 +350,
+						 -Math.sin((18+i*72)/180*Math.PI)*200 +350);
+				ct.lineTo(Math.cos((54+i*72)/180*Math.PI)*100 +350,
+						 -Math.sin((54+i*72)/180*Math.PI)*100 +350);
+			}
+			ct.closePath();
+			ct.lineWidth = 10;
+			ct.strokeStyle = 'red';
+			ct.stroke();
+		}
 	</script>
 </body>
 </html>

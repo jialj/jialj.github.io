@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style type="text/css">
+	* {
+		padding: 0px;
+		margin-top: 0px;
+	}
+	h3{
+		margin-top: 50px;
+	}
+
+	#box{
+		width: 100px;
+		height: 200px;
+		border: 1px solid #ccc;
+	}
+	.content {
+		display: inline-block;
+		padding-top: 100%;
+		width: 100px;
+		background-color: #ccc;
+	}
+
+	ul{
+		display: flex;
+		width:500px;
+		border: 1px solid red;
+	}
+	li{
+		flex: 1;
+		display: inline-block;
+		margin-right:10px;
+	}
+	a {
+		display: inline-block;
+		padding-top: 100%;
+		width:100%;
+		background: url(kate.jpg);
+		background-size: cover;
+	}
+
+	#tbox{
+		width: 100px;
+		border: 1px solid blue;
+	}
+	.tcontent{
+		background-color: green;
+		padding-top: 100%;
+		padding-bottom: 100%;
+		margin-top: 100%;
+		margin-bottom: 100%;
+	}
+
+</style>
+<body>
+	<h3>padding-top百分比的奇特表现</h3>
+	<div id="box">
+		<div class="content"></div>
+		<div class="content"></div>
+	</div>
+	<h3>三个正方形的卡特</h3>
+	<div id="flexbox">
+		<ul>
+			<li><a href="https:www.so.com"></a></li>
+			<li><a href="https:www.so.com"></a></li>
+			<li><a href="https:www.so.com"></a></li>
+		</ul>
+	</div>
+	<h3>padding-top,padding-bottom,margin-top,margin-bottom 其实这些属性都是根据父元素的宽度计算的</h3>
+	<div id="tbox">
+		<div class="tcontent"></div>
+		<div class="tcontent"></div>
+	</div>
+</body>
+</html>
