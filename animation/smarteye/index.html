@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style>
+	/**reset**/
+	*{
+		padding: 0px;
+		margin: 0px;
+	}
+	ul{
+		list-style: none;
+	}
+	/**控制面板样式**/
+	.panel{
+		position: absolute;
+		right:50px;
+		top:0px;
+	}
+	.panel ul{
+		margin-top:10px;
+	}
+	.panel ul li{
+		text-align: center;
+		padding:8px 10px;
+		cursor: pointer;
+		border: 1px solid #ccc;
+	}
+	.panel ul li.active{
+		background-color: #a35354;
+	}
+</style>
+<body>
+	<div class="photoWall">
+		<canvas id="mycanvas"></canvas>
+		<canvas id="magnifyCanvas" style="display:none"></canvas>
+		<canvas id="markcanvas" style="display:none"></canvas>
+	</div>
+	<div class="panel" id="panel">
+		<h3>选择放大镜</h3>
+		<ul>
+			<li data-shape="arc">圆形</li>
+			<li data-shape="square">方形</li>
+			<li data-shape="star">五角星</li>
+		</ul>
+	</div>
+	<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.js"></script>
+	<script type='text/javascript'>
+
+		var scale = 2,  //放大倍数
+			shape = "arc"; //形状：arc-圆形 ， square-方形，star-星形
+		window.onload = function(){
+			var canvas = document.getElementById('mycanvas'),
+				context = canvas.getContext('2d'),
+				img = new Image();
+				img.src = 'img/1.png';
+
+			var magfycanvas = document.getElementById("magnifyCanvas"),
+				magfyContext = magfycanvas.getContext('2d');
+
+			var waterMarkCanvas = document.getElementById('markcanvas');
+
+			img.onload = function( e ){
+				canvas.width = img.width/scale;
+				canvas.height = img.height/scale;
+
+				magfycanvas.width = img.width;
+				magfycanvas.height = img.height;
+				magfyContext.drawImage(img , 0 , 0);
+
+				context.drawImage(img , 0, 0, canvas.width, canvas.height);
+
+				
+				waterMarkDraw(waterMarkCanvas);
+				context.drawImage(waterMarkCanvas, canvas.width-200, canvas.height-50)
+			}
+
+			var ifShow = false;
+			canvas.onmousedown = function( e ){
+				ifShow = true;
+				var point = canvasPoint(e.clientX,e.clientY);
+				reDrawCanvas( ifShow , point );
+			}
+			canvas.onmousemove = function( e ){
+				if( ifShow ){
+					var point = canvasPoint(e.clientX,e.clientY);
+					reDrawCanvas( ifShow , point );
+				}
+			}
+			canvas.onmouseup = function( e ){
+				ifShow = false;
+				reDrawCanvas( ifShow );
+			}
+			canvas.onmouseout = function( e ){
+				ifShow = false;
+				reDrawCanvas( ifShow );
+			}
+			
+			/**
+			 * 绘制水印
+			**/
+			function waterMarkDraw( canvas ){
+				var ctx = canvas.getContext('2d');
+				ctx.width = 200;
+				ctx.height = 100;
+				ctx.save();
+				ctx.font = 'bold 40px Arial';
+				ctx.fillStyle = 'rgba(255,255,255,0.5)';
+				ctx.fillText('---jialj---', 10, 40);
+				ctx.lineWidth = 2;
+				ctx.fill();
+				ctx.restore();
+			}
+
+			/**
+			 * 获取当前鼠标在canvas上的位置
+			 **/
+			function canvasPoint( x , y ){
+				var boundBox = canvas.getBoundingClientRect();
+				return {
+					x:x - boundBox.left,
+					y:y - boundBox.top
+				}
+			}
+
+			function reDrawCanvas( ifMagnify , point ){
+				context.clearRect( 0 ,0 , canvas.width , canvas.height);
+				context.drawImage( img , 0 , 0 , canvas.width , canvas.height);
+				context.drawImage(waterMarkCanvas, canvas.width-200, canvas.height-50);
+				if( ifMagnify ){
+					drawMagnify( point );
+				}
+			}
+			
+			function drawMagnify( point ){
+				var r = 100;
+				var sx = point.x*scale - r;
+				var sy = point.y*scale - r;
+
+				var dx = point.x - r;
+				var dy = point.y - r;
+
+				context.save();
+				context.beginPath();
+				console.log(shape);
+				switch(shape){
+					case 'arc':
+					context.arc( point.x , point.y ,r,0,Math.PI*2);
+					break;
+					case 'square':
+					context.rect(dx, dy ,2*r, 2*r);
+					break;
+					case 'star':
+					for(var i=0; i<5; i++){
+						context.lineTo(Math.cos((18+i*72)/180*Math.PI)*r +point.x,
+								-Math.sin((18+i*72)/180*Math.PI)*r +point.y);
+						context.lineTo(Math.cos((54+i*72)/180*Math.PI)*r/2 +point.x,
+								-Math.sin((54+i*72)/180*Math.PI)*r/2 +point.y);
+					}
+					context.closePath();
+				}
+
+				context.clip();
+				context.drawImage(magfycanvas , sx,sy,2*r,2*r,dx,dy,2*r,2*r);
+				context.restore();
+			}
+
+			/**选择面板功能**/
+			var $panel = $('#panel');
+			$panel.on('click','li',function(){
+				$(this).siblings('.active').removeClass('active');
+				$(this).addClass('active');
+				shape = $(this).data('shape');
+			})
+			
+
+		}
+
+	</script>
+	
+</body>
+</html>
