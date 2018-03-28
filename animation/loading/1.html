@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<style>
+  .duang-box{
+    position: relative;
+    width: 140px;
+    height: 300px;
+    transform: scale(.25);
+    transition: all 2s linear 0s;
+  }
+  .duang-shadow{
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    transform: translate3d(50%, 0px, 0px);
+    width: 60px;
+    height: 75px;
+    background: rgba(20, 20, 20, .1);
+    box-shadow: 0 0 20px 35px rgba(20, 20, 20, .1);
+    border-radius: 30px / 40px;
+    transform: scaleY(.3);
+    animation: shadow .5s infinite alternate;
+  }
+  @keyframes shadow{
+    0% {
+      bottom: 0;
+      margin-left: -30px;
+      width: 60px;
+      height: 75px;
+      background: rgba(20, 20, 20, .1);
+      box-shadow: 0 0 20px 35px rgba(20, 20, 20, .1);
+      border-radius: 30px / 40px;
+      animation-timing-function: ease-in;
+    }
+    100% {
+        bottom: 30px;
+        margin-left: -10px;
+        width: 20px;
+        height: 5px;
+        background: rgba(20, 20, 20, .3);
+        box-shadow: 0 0 20px 35px rgba(20, 20, 20, .3);
+        border-radius: 20px / 20px;
+        animation-timing-function: ease-out;
+    }
+  }
+  .duangduang-ball{
+    position: absolute;
+    top: 0px;
+    width: 140px;
+    height: 140px;
+    border-radius: 70px;
+    background-color: #29d;
+    animation: ball 1s infinite;
+  }
+  @keyframes ball{
+    0% {
+        top: 0;
+        animation-timing-function: ease-in;
+    }
+    50% {
+        top: 140px;
+        height: 140px;
+        animation-timing-function: ease-out;
+    }
+    55% {
+        top: 160px;
+        height: 120px;
+        border-radius: 70px / 60px;
+        animation-timing-function: ease-in;
+    }
+    65% {
+        top: 120px;
+        height: 140px;
+        border-radius: 70px;
+        animation-timing-function: ease-out;
+    }
+    95% {
+        top: 0;
+        animation-timing-function: ease-in;
+    }
+    100% {
+        top: 0;
+        animation-timing-function: ease-in;
+    }
+  }
+</style>
+<body>
+  <div class="duang-box">
+    <div class="duang-shadow">
+    </div>
+    <div class="duangduang-ball">
+    </div>
+  </div>
+</body>
+</html>
